@@ -12,7 +12,7 @@ module.exports = {
         var token = (req.header('X-Access-Token')) || '';
 
         auth.decodeToken(token, (err, payload) => {
-            const query = {
+            const query = { 
                 sql: 'INSERT INTO studentenhuis(Naam,Adres,UserID) VALUES (?, ?,?)',
                 values: [name,adres,payload.id],
                 timeout: 2000
