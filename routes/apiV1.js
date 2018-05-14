@@ -4,6 +4,7 @@ const routes = express.Router()
 let usercontroller = require('../controllers/User_controller')
 let dormcontroller = require('../controllers/Dorm_controller')
 let mealcontroller = require('../controllers/Meal_controller')
+let attendeescontroller = require('../controllers/Attendees_controller')
 const auth =  require('../auth/authentication');
 routes.all(new RegExp("[^(\/loginrgste)]"), function (req, res, next) {
 
@@ -33,8 +34,8 @@ routes.get('/studentenhuis/:id/maaltijd',mealcontroller.getMeals)
 routes.get('/studentenhuis/:id/maaltijd/:maaltijdid',mealcontroller.getMeal)
 routes.put('/studentenhuis/:id/maaltijd/:maaltijdid',mealcontroller.updateMeal)
 routes.delete('/studentenhuis/:id/maaltijd/:maaltijdid',mealcontroller.deleteMeal)
-routes.post('/studentenhuis/:id/maaltijd/:maaltijdid',)
-routes.get('/studentenhuis/:id/maaltijd/:maaltijdid/deelnemers',)
-routes.delete('/studentenhuis/:id/maaltijd/:maaltijdid/deelnemers',)
+routes.post('/studentenhuis/:id/maaltijd/:maaltijdid/deelnemers',attendeescontroller.createAttendees)
+routes.get('/studentenhuis/:id/maaltijd/:maaltijdid/deelnemers',attendeescontroller.getAttendees)
+routes.delete('/studentenhuis/:id/maaltijd/:maaltijdid/deelnemers',attendeescontroller.deleteAttendees)
 
 module.exports = routes;
