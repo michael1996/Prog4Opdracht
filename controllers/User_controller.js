@@ -1,6 +1,7 @@
 let User = require('../model/User')
 const assert = require('assert')
 const db = require('../db/db_connector')
+const auth =  require('../auth/authentication');
 
 module.exports = {
     registerUser(req,res,next){
@@ -24,8 +25,35 @@ module.exports = {
                     res.status(500).json(error.toString())
                 } else {
                     res.status(200).json(rows)
+    
                 }
-            })
-        
+            });
+    },
+    LoginUser(req,res,next){
+        var email = req.body.email || '';
+        var password = req.body.password || '';
+        const query = {
+            sql: 'SELECT * FROM user WHERE Email = ? AND Password = ?',
+            values: [email,password],
+            timeout: 2000
+        };
+        db.query(query,(error,rows,fields)=>{
+            if (error) {
+                res.status(500).json(error.toString())
+            }
+            else{
+                if(rows.length >0){
+                    res.status(200).json({"token" : auth.encodeToken([0].ID,[0].Email)});
+                  }
+                  else{
+                    res.send({
+                      "code":204,
+                      "success":"Email or Password is incorrect"
+                        });
+                  }
+                }
+                
+        });
+
     }
 }

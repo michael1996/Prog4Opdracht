@@ -3,7 +3,7 @@ const express = require('express')
 const routes = express.Router()
 let usercontroller = require('../controllers/User_controller')
 
-routes.post('/login',)
+routes.post('/login',usercontroller.LoginUser)
 routes.post('/register',usercontroller.registerUser)
 routes.post('/studentenhuis',)
 routes.get('/studentenhuis',)
