@@ -2,12 +2,29 @@
 const express = require('express')
 const routes = express.Router()
 let usercontroller = require('../controllers/User_controller')
+let dormcontroller = require('../controllers/Dorm_controller')
+const auth =  require('../auth/authentication');
+routes.all(new RegExp("[^(\/loginrgste)]"), function (req, res, next) {
 
-routes.post('/login',usercontroller.LoginUser)
-routes.post('/register',usercontroller.registerUser)
-routes.post('/studentenhuis',)
-routes.get('/studentenhuis',)
-routes.get('/studentenhuis/:id',)
+    //
+    console.log("VALIDATE TOKEN")
+
+    var token = (req.header('X-Access-Token')) || '';
+
+    auth.decodeToken(token, (err, payload) => {
+        if (err) {
+            console.log('Error handler: ' + err.message);
+            res.status((err.status || 401 )).json({error: new Error("Not authorised").message});
+        } else {
+            next();
+        }
+    });
+});
+routes.route('/login').post(usercontroller.LoginUser);
+routes.route('/register').post(usercontroller.registerUser);
+routes.post('/studentenhuis',dormcontroller.createDorm)
+routes.get('/studentenhuis',dormcontroller.getDorms)
+routes.get('/studentenhuis/:id',dormcontroller.getDorm)
 routes.put('/stdentenhuis/:id',)
 routes.delete('studentenhuis/:id',)
 routes.post('/studentenhuis/:id/maaltijd',)

@@ -30,6 +30,8 @@ module.exports = {
             });
     },
     LoginUser(req,res,next){
+        assert.equal(typeof(req.body.email), 'string', "Argument 'email' must be a string.");
+        assert.equal(typeof(req.body.password), 'string', "Argument 'password' must be a string.");
         var email = req.body.email || '';
         var password = req.body.password || '';
         const query = {
@@ -37,17 +39,21 @@ module.exports = {
             values: [email,password],
             timeout: 2000
         };
-        db.query(query,(error,rows,fields)=>{
+        db.query(query,(error,rows)=>{
+            console.log(rows);
             if (error) {
                 res.status(500).json(error.toString())
             }
             else{
-                if(rows.length >0){
-                    res.status(200).json({"token" : auth.encodeToken([0].ID,[0].Email)});
+                if(rows.length =1){
+                    res.send({
+                        "token" :auth.encodeToken(rows[0].ID,email),
+                        "email" : email,
+                    });
                   }
                   else{
                     res.send({
-                      "code":204,
+                      "code":412,
                       "success":"Email or Password is incorrect"
                         });
                   }
