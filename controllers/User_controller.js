@@ -1,6 +1,8 @@
-let User = require('../model/User')
-const assert = require('assert')
-const db = require('../db/db_connector')
+"use strict";
+
+let User = require('../model/User');
+const assert = require('assert');
+const db = require('../db/db_connector');
 const auth =  require('../auth/authentication');
 
 module.exports = {
@@ -57,8 +59,8 @@ module.exports = {
     LoginUser(req,res,next){
         assert.equal(typeof(req.body.email), 'string', "Argument 'email' must be a string.");
         assert.equal(typeof(req.body.password), 'string', "Argument 'password' must be a string.");
-        var email = req.body.email || '';
-        var password = req.body.password || '';
+        const email = req.body.email || '';
+        const password = req.body.password || '';
         const query = {
             sql: 'SELECT * FROM user WHERE Email = ? AND Password = ?',
             values: [email,password],
@@ -89,4 +91,4 @@ module.exports = {
         });
 
     }
-}
+};

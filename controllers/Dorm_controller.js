@@ -1,3 +1,5 @@
+"use strict";
+
 const Dorm = require('../model/Dorm')
 const assert = require('assert')
 const db = require('../db/db_connector')
