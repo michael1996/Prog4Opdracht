@@ -1,3 +1,5 @@
+"use strict";
+
 const settings = require('../config.json');
 const moment = require('moment');
 const jwt = require('jwt-simple');

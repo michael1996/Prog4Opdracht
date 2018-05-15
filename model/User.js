@@ -1,3 +1,5 @@
+"use strict";
+
 class User{
     constructor(firstname,lastname,email,password){
         

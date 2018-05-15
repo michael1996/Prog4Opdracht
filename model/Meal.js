@@ -1,3 +1,5 @@
+"use strict";
+
 class Meal{
     constructor(id,naam,beschrijving,ingredienten,allergie,prijs){
         this.id = id;

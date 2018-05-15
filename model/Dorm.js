@@ -1,3 +1,5 @@
+"use strict";
+
 class Dorm{
     constructor(id,naam,adres,contact,email){
         this.naam = naam;
