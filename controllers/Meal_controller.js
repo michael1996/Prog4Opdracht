@@ -1,3 +1,5 @@
+"use strict";
+
 const assert = require('assert')
 const db = require('../db/db_connector')
 const auth =  require('../auth/authentication');
