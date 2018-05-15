@@ -46,7 +46,7 @@ module.exports = {
                                 console.log(rows)
                                 res.send({
                                     "code": 200,
-                                    "token" :auth.encodeToken(rows.insertID,user.email),
+                                    "token" :auth.encodeToken(rows.insertId,user.email),
                                     "email" : user.email,
                                 });
                             }
