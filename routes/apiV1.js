@@ -16,7 +16,11 @@ routes.all(new RegExp("[^(\/loginrgste)]"), function (req, res, next) {
     auth.decodeToken(token, (err, payload) => {
         if (err) {
             console.log('Error handler: ' + err.message);
-            res.status((err.status || 401 )).json({error: new Error("Niet geautoriseers (geen valid token)").message});
+            res.send({
+                "message": "Niet geautoriseerd (geen valid token)",
+                "code": 200,
+                "datetime": Date
+            });
         } else {
             next();
         }

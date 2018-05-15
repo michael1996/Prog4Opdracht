@@ -5,13 +5,13 @@ const auth =  require('../auth/authentication');
 
 module.exports = {
     registerUser(req,res,next){
-        let user = req.body;
+        
 
         assert.equal(typeof(req.body.firstname), 'string', "Argument 'firstname' must be a string.");
         assert.equal(typeof(req.body.lastname), 'string', "Argument 'lastname' must be a string.");
         assert.equal(typeof(req.body.email), 'string', "Argument 'email' must be a string.");
         assert.equal(typeof(req.body.password), 'string', "Argument 'password' must be a string.");
-
+        let user = new User(req.body.firstname,req.body.lastname,req.body.email,req.body.password);
 
             const checkquery = {
                 sql: 'SELECT * FROM user WHERE Email = ?',

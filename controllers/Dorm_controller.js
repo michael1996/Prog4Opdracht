@@ -24,8 +24,20 @@ module.exports = {
                     if (error) {
                         res.status(500).json(error.toString())
                     } else {
-                        res.status(200).json(rows)
-        
+                        const query = {
+                            sql: 'SELECT * FROM  view_studentenhuis WHERE ID = ?',
+                            values: rows.insertID,
+                            timeout: 2000
+                        };
+                        console.log('QUERY: ' + query.sql);
+                    
+                        db.query( query, (error, rows, fields) => {
+                                if (error) {
+                                    res.status(500).json(error.toString())
+                                } else {
+                                    res.status(200).json(rows)
+                                }
+                            });
                     }
                 });
 
@@ -100,7 +112,9 @@ module.exports = {
         }
         else 
         {
-            //error handling als er geen id gegeven is 
+            res.send({
+                "code ":""
+            });
         }
     },
     deleteDorm(req,res,next)
