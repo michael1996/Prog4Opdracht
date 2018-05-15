@@ -7,12 +7,6 @@ const auth =  require('../auth/authentication');
 
 module.exports = {
     registerUser(req,res,next){
-        
-
-        assert.equal(typeof(req.body.firstname), 'string', "Argument 'firstname' must be a string.");
-        assert.equal(typeof(req.body.lastname), 'string', "Argument 'lastname' must be a string.");
-        assert.equal(typeof(req.body.email), 'string', "Argument 'email' must be a string.");
-        assert.equal(typeof(req.body.password), 'string', "Argument 'password' must be a string.");
         let user = new User(req.body.firstname,req.body.lastname,req.body.email,req.body.password);
 
             const checkquery = {
@@ -23,8 +17,7 @@ module.exports = {
             db.query(checkquery,(error,rows)=>{
                 if(rows.length>0)
                 {
-                    res.send({
-                        "code": 412,
+                    res.status(412).send({
                         "message":"email is al ingebruik",
                         "date": Date()
                     });
@@ -57,8 +50,6 @@ module.exports = {
             });
     },
     LoginUser(req,res,next){
-        assert.equal(typeof(req.body.email), 'string', "Argument 'email' must be a string.");
-        assert.equal(typeof(req.body.password), 'string', "Argument 'password' must be a string.");
         const email = req.body.email || '';
         const password = req.body.password || '';
         const query = {
@@ -68,25 +59,19 @@ module.exports = {
         };
         db.query(query,(error,rows)=>{
             console.log(rows);
-            if (error) {
-                res.status(500).json(error.toString())
-            }
-            else{
-                if(rows.length =1){
-                    res.send({
-                        "code": 200,
+                if(rows.length ===1){
+                    res.status(200).send({
                         "token" :auth.encodeToken(rows[0].ID,rows[0].Email),
                         "email" : rows[0].Email,
                     });
                   }
                   else{
-                    res.send({
-                      "code":412,
+                    res.status(412).send({
                       "Login Failed": "Een of meer properties in de request body ontbreken of zijn foutief",
                       "date": Date()
                         });
                   }
-                }
+                
                 
         });
 

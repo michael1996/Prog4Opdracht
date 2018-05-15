@@ -18,3 +18,4 @@ let port = process.env.PORT || config.port;
 app.listen(port, () => {
 	console.log('De server draait op port ' + port)
 })
+module.exports = app
