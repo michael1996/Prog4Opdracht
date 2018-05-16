@@ -5,37 +5,80 @@ const server = require('../server')
 chai.should()
 chai.use(chaiHttp)
 
+
+
 describe('Studentenhuis API POST', () => {
+    let validToken = null;
+    let fakeToken = 0;
+    before(function(){
+        chai.request(server)
+            .post('/api/login')
+            .send({
+                "email": "hansklaas9@server.nl",
+                "password":"secret"
+            })
+            .end((err,res)=>{
+                validToken = res.body.token
+            })
+
+    });
     it('should throw an error when using invalid JWT token', (done) => {
-        //
-        // Hier schrijf je jouw testcase.
-        //
-        done()
+        chai.request(server)
+        .get('/api/studentenhuis')
+        .set('X-Access-Token',fakeToken)
+
+        .end((err,res)=>{
+            res.should.have.status(401)
+            done()
+        })
+
     })
 
     it('should return a studentenhuis when posting a valid object', (done) => {
-        //
-        // Hier schrijf je jouw testcase.
-        //
-        done()
+        chai.request(server)
+        .post('/api/studentenhuis')
+        .set('X-Access-Token',validToken)
+        .send({
+            "naam":"test ",
+            "adres":"test"
+        })
+
+        .end((err,res)=>{
+            res.should.have.status(200)
+            done()
+        })
     })
 
     it('should throw an error when naam is missing', (done) => {
-        //
-        // Hier schrijf je jouw testcase.
-        //
-        done()
-    })
+        chai.request(server)
+        .post('/api/studentenhuis')
+        .set('X-Access-Token',validToken)
+        .send({
+            "adres":"test"
+        })
 
-    it('should throw an error when adres is missing', (done) => {
-        //
-        // Hier schrijf je jouw testcase.
-        //
-        done()
+        .end((err,res)=>{
+            res.should.have.status(412)
+            done()
+        })
     })
 })
 
 describe('Studentenhuis API GET all', () => {
+    let validToken = null;
+    let fakeToken = 0;
+    before(function(){
+        chai.request(server)
+            .post('/api/login')
+            .send({
+                "email": "hansklaas9@server.nl",
+                "password":"secret"
+            })
+            .end((err,res)=>{
+                validToken = res.body.token
+            })
+
+    });
     it('should throw an error when using invalid JWT token', (done) => {
         //
         // Hier schrijf je jouw testcase.
