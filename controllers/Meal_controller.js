@@ -291,19 +291,30 @@ module.exports = {
                             db.query(queryUser, (error, rows, fields) => {
                                 console.log(payload.id);
                                 if (rows[0].UserID === payload.id) {
-                                    db.query(query, (error, rows, fields) => {
-                                        if (error) {
-                                            res.status(412).send({
-                                                "message": "Een of meer properties in de request body ontbreken of zijn foutief",
-                                                "code": 412,
-                                                "date": Date()
-                                            });
-                                        } else {
-                                            res.status(200).send({
-
-                                            });
-                                        }
+                                    const deelnemersquery = { 
+                                        sql: 'Delete from deelnemers where Userid = ? AND StudentenhuisID =? AND MaaltijdID =?',
+                                        values: [payload.id,id,maaltijdid],
+                                        timeout: 2000
+                                    };
+                                
+                                    console.log('QUERY: ' + query.sql);
+                                
+                                    db.query( deelnemersquery, (error, rows, fields) => {
+                                        db.query(query, (error, rows, fields) => {
+                                            if (error) {
+                                                res.status(412).send({
+                                                    "message": "Een of meer properties in de request body ontbreken of zijn foutief",
+                                                    "code": 412,
+                                                    "date": Date()
+                                                });
+                                            } else {
+                                                res.status(200).send({
+    
+                                                });
+                                            }
+                                        });
                                     });
+                                   
                                 } else {
                                     res.status(409).send({
                                         "Message" : "Conflict (Gebruiker mag deze data niet wijzigen)",
